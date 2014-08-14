@@ -39,7 +39,7 @@ getRandomCity <- function(xstate = "SA", xnum=1) {
 }
 ##usage: 
 # getRandomCity("SA", 4);
-# gets 4 cities' lat long from South Australia
+# gets 4 cities' lat & long from South Australia
 #randomizing rows of a dataframe based on a grouping value
 shuffelRows <- function(xdf, xcol){
   v <- unique(xdf[,xcol])
@@ -73,10 +73,10 @@ aumig <- aumig[aumig$X1 != "Overseas" & aumig$X1 != "Total" & aumig$X1 != "Not s
 
 aumig$X1 <- sapply(as.character(aumig$X1), getAbbreviation)
 names(aumig) <- c("SOURCE", aumig$X1)
-#read au shapefile from gadm
-aumap <- readShapeSpatial("D:/R/Map/AUS_adm/AUS_adm1.shp")
+#read au shapefile obtained from gadm
+aumap <- readShapeSpatial("data/AUS_adm/AUS_adm1.shp")
 aumap.df <- fortify(aumap)
-places <- read.csv("D:/R/Map/cities1000.csv", header=FALSE, stringsAsFactors=FALSE)
+places <- read.csv("data/cities1000.csv", header=FALSE, stringsAsFactors=FALSE)
 places <- places[places$V9 == "AU",]
 #* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 #*     Data processing
