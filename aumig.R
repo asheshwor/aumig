@@ -49,17 +49,6 @@ shuffelRows <- function(xdf, xcol){
 #   return(u[with(u, order(group, order)),])
   return(u)
 }
-# xx <- sample(1:nrow(arc), size=nrow(arc)) #random indices
-# yy <- sapply(xx, function(x) unlist(rep(x, arc.nombre + 2)))
-
-# 
-# uu <- merge(xx, arc, all.y=TRUE)
-# uu <- merge(data.frame(x), arc, by.x = "x",
-#             by.y = "piece", all.y=TRUE)
-# adff <- do.call(rbind, lapply(xx[1:10],
-#                         function(x) arc[arc$piece == x, ] )
-# )
-# head(arc[arc$piece == 56, ])
 #* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 #*     Read and prepare data
 #* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -167,42 +156,11 @@ geosource <- matrix(c(aumelt.full$lon.s,
                       aumelt.full$lat.s), ncol=2)
 geodestination <- matrix(c(aumelt.full$lon.d,
                            aumelt.full$lat.d), ncol=2)
-# arc.nombre <- 40
-# cgc <- gcIntermediate(geosource, geodestination, arc.nombre,
-#                       breakAtDateLine = TRUE, addStartEnd = TRUE,
-#                       sp = TRUE)
-# cgc.ff <- fortify.SpatialLinesDataFrame(cgc)
-# write.csv(cgc.ff, file = "./data/gcau2.csv", row.names=FALSE)
-#head(cgc.ff); tail(cgc.ff)
+
 #* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 #*     Plot graph
 #* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-
-#read cgc and plot
-
-# cgc.ff <- read.csv("./data/gcau.csv")
-# head(cgc.ff)
-# adf <- unique(cgc.ff$group)
-# rm(adf)
-#
-# library(doSNOW)
-# registerDoSNOW(makeCluster(7, type = "SOCK"))
-#install.packages("doSNOW")
-# cgc.ff2 <- ddply(cgc.ff, c("group"), function(xdf) {
-#   vlat <- xdf$lat
-#   vlon <- xdf$long
-#   n <- nrow(xdf)
-#   d <- sqrt((xdf$long[1] - xdf$long[n])^2 + (xdf$lat[1] - xdf$lat[n])^2)
-#   t <- pi*(vlat - min(vlat))/diff(range(vlat))
-# #   step <- (vlat - min(vlat))/(arc.nombre + 2)
-#   vlatnew <- seq(vlat[1], vlat[n], length.out = arc.nombre + 2)
-# vlon <- seq(vlon[1], vlon[n], length.out = arc.nombre +2)
-#   vlat <- vlatnew + (d/3) * sin(t)
-#   return(data.frame(long2=vlon, lat2 = vlat))
-# })
-# cgc.ff$lat2 <- cgc.ff2$lat2
-# cgc.ff$long2 <- cgc.ff2$long2
 #adding curvature without great circle
 # start from geosource and destination source
 arc.nombre <- 50
@@ -228,17 +186,7 @@ arc$sort <- rep(sample(1:max(arc$piece)),
                 each = arc.nombre + 2)
 arc <- arc[order(arc$sort, arc$order), ]
 row.names(arc) <- 1:nrow(arc)
-#randomize the pieces
-# for (i in 1:length(geosource)/2) {
-#   .lons <- geosource[i,1]
-#   .lats <- geosource[i,2]
-#   .lond <- geodestionation[i,1]
-#   .latd <- geodestionation[i,2]
-#   lonlist <- seq(.lons, .lond, length.out = arc.nombre + 2)
-#   latlist <- seq(.lats, .latd, length.out = arc.nombre + 2)
-#   d <- sqrt((.lons - .lond)^2 + (.lats - .latd)^2)
-#   latlist <- latlist + (d/3) * sin(t[i])
-# }
+
 source.couleur <- "green4" #"green4"
 destination.couleur <- "red1" #"red3"
 mid.couleur <- "steelblue4"
@@ -251,7 +199,6 @@ mapTitle <- "International migration flows based on UN stock migrants data 2013"
 alpha <- 0.04 #0.3 0.2
 size <- 0.003 #0.02 0.01
 
-# legend.emplacement <- c(.12,.22)
 #plot with added curvature
 gcmap <- ggplot() +
   geom_polygon(aes(long,lat, group=group), 
