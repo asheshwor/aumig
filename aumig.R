@@ -15,7 +15,7 @@ library(sp)
 library(rgeos)
 require(reshape2)
 require(maptools)
-source("data/fort.R")
+# source("data/fort.R")
 #* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 #*     Functions
 #* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
